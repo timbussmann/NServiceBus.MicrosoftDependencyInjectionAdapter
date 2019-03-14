@@ -44,12 +44,35 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
 
         public void Configure(Type component, DependencyLifecycle dependencyLifecycle)
         {
+            if (serviceCollection.Any(s => s.ServiceType == component))
+            {
+                return;
+            }
+
             serviceCollection.Add(new ServiceDescriptor(component, component, Map(dependencyLifecycle)));
+            RegisterInterfaces(component);
         }
 
-        public void Configure<T>(Func<T> component, DependencyLifecycle dependencyLifecycle)
+        public void Configure<T>(Func<T> componentFactory, DependencyLifecycle dependencyLifecycle)
         {
-            serviceCollection.Add(new ServiceDescriptor(typeof(T), p => component(), Map(dependencyLifecycle)));
+            var componentType = typeof(T);
+            if (serviceCollection.Any(s => s.ServiceType == componentType))
+            {
+                return;
+            }
+
+            serviceCollection.Add(new ServiceDescriptor(componentType, p => componentFactory(), Map(dependencyLifecycle)));
+            RegisterInterfaces(componentType);
+        }
+
+        void RegisterInterfaces(Type component)
+        {
+            var interfaces = component.GetInterfaces();
+            foreach (var serviceType in interfaces)
+            {
+                // see https://andrewlock.net/how-to-register-a-service-with-multiple-interfaces-for-in-asp-net-core-di/
+                serviceCollection.Add(new ServiceDescriptor(serviceType, sp => sp.GetService(component), ServiceLifetime.Transient));
+            }
         }
 
         public void RegisterSingleton(Type lookupType, object instance)
@@ -76,6 +99,24 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
                 case DependencyLifecycle.InstancePerUnitOfWork: return ServiceLifetime.Scoped;
                 default: throw new NotSupportedException();
             }
+        }
+
+        //TODO which scenario is this needed for?
+        static IEnumerable<Type> GetAllServices(Type type)
+        {
+            if (type == null)
+            {
+                return new List<Type>();
+            }
+
+            var result = new List<Type>(type.GetInterfaces());
+
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                result.AddRange(GetAllServices(interfaceType));
+            }
+
+            return result.Distinct();
         }
     }
 }
