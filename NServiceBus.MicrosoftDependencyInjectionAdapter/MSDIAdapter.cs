@@ -10,7 +10,7 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
     {
         public override IContainer CreateContainer(ReadOnlySettings settings)
         {
-            ServiceCollection serviceCollection = null;
+            IServiceCollection serviceCollection = null;
             if (!settings.TryGet(out serviceCollection))
             {
                 serviceCollection = new ServiceCollection();
