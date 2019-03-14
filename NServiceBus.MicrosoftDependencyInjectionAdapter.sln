@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NServiceBus.MicrosoftDepend
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NServiceBus.MSDIAdapter.ContainerTests", "NServiceBus.MSDIAdapter.ContainerTests\NServiceBus.MSDIAdapter.ContainerTests.csproj", "{5C5880F7-C622-4CB9-920D-3D221AA7311A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{A24C2642-4D1E-49FE-80F6-5D409EB7396E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppDemo", "WebApplication1\WebAppDemo.csproj", "{5EFE12A3-6A96-4564-9A30-E0B7867F07B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{5C5880F7-C622-4CB9-920D-3D221AA7311A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C5880F7-C622-4CB9-920D-3D221AA7311A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C5880F7-C622-4CB9-920D-3D221AA7311A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A24C2642-4D1E-49FE-80F6-5D409EB7396E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A24C2642-4D1E-49FE-80F6-5D409EB7396E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A24C2642-4D1E-49FE-80F6-5D409EB7396E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A24C2642-4D1E-49FE-80F6-5D409EB7396E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFE12A3-6A96-4564-9A30-E0B7867F07B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFE12A3-6A96-4564-9A30-E0B7867F07B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFE12A3-6A96-4564-9A30-E0B7867F07B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFE12A3-6A96-4564-9A30-E0B7867F07B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
