@@ -10,18 +10,16 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
     {
         public override IContainer CreateContainer(ReadOnlySettings settings)
         {
-            IServiceCollection serviceCollection = null;
-            if (!settings.TryGet(out serviceCollection))
+            if (!settings.TryGet(out IServiceCollection serviceCollection))
             {
                 serviceCollection = new ServiceCollection();
             }
 
-            Func<IServiceCollection, IServiceProvider> factory;
-            if (!settings.TryGet("MSDIAdapter.Factory", out factory))
+            if (!settings.TryGet("MSDIAdapter.Factory", out Func<IServiceCollection, IServiceProvider> factory))
             {
-                // default factory:
                 factory = sc => sc.BuildServiceProvider();
             }
+
             return new ConfigurableServiceCollectionAdapter(serviceCollection, factory);
         }
     }
