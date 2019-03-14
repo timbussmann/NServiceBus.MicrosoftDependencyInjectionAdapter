@@ -10,18 +10,20 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
     public class ConfigurableServiceCollectionAdapter : IContainer
     {
         private readonly IServiceCollection serviceCollection;
+        private readonly bool externallyOwned;
         private readonly Lazy<IServiceProvider> serviceProvider;
 
-        public ConfigurableServiceCollectionAdapter(IServiceCollection serviceCollection, Func<IServiceCollection, IServiceProvider> serviceProviderFactory)
+        public ConfigurableServiceCollectionAdapter(IServiceCollection serviceCollection, Func<IServiceCollection, IServiceProvider> serviceProviderFactory, bool externallyOwned)
         {
             this.serviceCollection = serviceCollection;
+            this.externallyOwned = externallyOwned;
             serviceProvider = new Lazy<IServiceProvider>(() => serviceProviderFactory(this.serviceCollection), LazyThreadSafetyMode.PublicationOnly);
            
         }
 
         public void Dispose()
         {
-            if (serviceProvider.Value is IDisposable disposable)
+            if (externallyOwned && serviceProvider.Value is IDisposable disposable)
             {
                 disposable.Dispose();
             }

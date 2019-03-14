@@ -8,6 +8,6 @@ public class Setup
 {
     public Setup()
     {
-        TestContainerBuilder.ConstructBuilder = () => new ConfigurableServiceCollectionAdapter(new ServiceCollection(), sc => sc.BuildServiceProvider());
+        TestContainerBuilder.ConstructBuilder = () => new ConfigurableServiceCollectionAdapter(new ServiceCollection(), sc => sc.BuildServiceProvider(), false);
     }
 }

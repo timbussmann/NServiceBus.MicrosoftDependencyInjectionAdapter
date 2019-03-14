@@ -14,13 +14,12 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
             {
                 serviceCollection = new ServiceCollection();
             }
+            
+            settings.TryGet("MSDIAdapter.Factory", out Func<IServiceCollection, IServiceProvider> factory);
 
-            if (!settings.TryGet("MSDIAdapter.Factory", out Func<IServiceCollection, IServiceProvider> factory))
-            {
-                factory = sc => sc.BuildServiceProvider();
-            }
-
-            return new ConfigurableServiceCollectionAdapter(serviceCollection, factory);
+            return new ConfigurableServiceCollectionAdapter(serviceCollection, factory ?? DefaultFactory, factory != null);
         }
+
+        static IServiceProvider DefaultFactory(IServiceCollection sc) => sc.BuildServiceProvider();
     }
 }
