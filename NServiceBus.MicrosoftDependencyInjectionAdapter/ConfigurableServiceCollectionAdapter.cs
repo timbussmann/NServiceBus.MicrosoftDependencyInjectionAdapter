@@ -21,6 +21,10 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
 
         public void Dispose()
         {
+            if (serviceProvider.Value is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
 
         public object Build(Type typeToBuild)
