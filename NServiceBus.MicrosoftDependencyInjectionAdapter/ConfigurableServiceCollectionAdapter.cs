@@ -29,7 +29,7 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
 
         public object Build(Type typeToBuild)
         {
-            return serviceProvider.Value.GetService(typeToBuild);
+            return serviceProvider.Value.GetService(typeToBuild) ?? throw new Exception($"Unable to build {typeToBuild.FullName}. Ensure the type has been registered correctly with the container.");
         }
 
         public IContainer BuildChildContainer()
