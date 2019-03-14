@@ -38,33 +38,30 @@ namespace WebApplication1
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var ec = new EndpointConfiguration("DItestASP");
-
-            //registry.For<ServiceA>().Use<ServiceA>().Singleton();
             services.AddSingleton<ServiceA>(_ => new ServiceA("a"));
 
-            //services.AddSingleton<IServiceProviderFactory<IServiceCollection>>(hack);
-            //services.AddSingleton<IServiceProviderFactory<ServiceRegistry>>(hack);
-            ec.GetSettings().Set(typeof(IServiceCollection).FullName, services);
-            IServiceProvider serviceProvider = null;
-            ec.GetSettings().Set("MSDIAdapter.Factory", value: (Func<IServiceCollection, IServiceProvider>)(sc =>
-            {
-                sc.AddSingleton<ServiceC>();
-                serviceProvider = new Container(sc);
-                return serviceProvider;
-            }));
-            ec.UseContainer<MSDIAdapter>();
-
+            var ec = new EndpointConfiguration("DItestASP");
             ec.UseTransport<LearningTransport>();
 
-            //ec.RegisterComponents(c => c.ConfigureComponent(typeof(ServiceA), DependencyLifecycle.SingleInstance));
+            IServiceProvider serviceProvider = null;
+            ec.UseContainer<MSDIAdapter>(c =>
+            {
+                c.UseServiceCollection(services);
+                c.ServiceProviderFactory(sc =>
+                {
+                    sc.AddSingleton<ServiceC>();
+                    serviceProvider = new Container(sc);
+                    return serviceProvider;
+                });
+            });
+
             ec.RegisterComponents(c => c.RegisterSingleton(new ServiceB("b")));
 
-            IEndpointInstance i = null;
-            services.AddSingleton<IMessageSession>(_ => i);
-            i = NServiceBus.Endpoint.Start(ec).GetAwaiter().GetResult();
+            IEndpointInstance endpointInstance = null;
+            services.AddSingleton<IMessageSession>(_ => endpointInstance);
+            endpointInstance = NServiceBus.Endpoint.Start(ec).GetAwaiter().GetResult();
 
-
+            // make sure to return the container here
             return serviceProvider;
         }
 
