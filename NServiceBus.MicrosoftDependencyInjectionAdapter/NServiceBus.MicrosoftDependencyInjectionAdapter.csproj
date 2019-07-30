@@ -1,7 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Community.NServiceBus.Extensions.DependencyInjection</PackageId>
+    <Authors>Tim Bussmann</Authors>
+    <Description>Provides a container adapter supporting Microsoft.Extensions.DependencyInjection for NServiceBus.</Description>
+    <PackageProjectUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
