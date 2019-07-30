@@ -44,14 +44,16 @@ ec.UseContainer<MSDIAdapter>(c =>
 
 ## Integrating with ASP.NET Core
 
-Integrating with ASP.NET Core requires the usage of the `ServiceProviderFactory` as NServiceBus needs to use a usable container when starting. The built container must then be returned from `ConfigureServices` so that both ASP.NET use the same container.
+Integrating with ASP.NET Core requires the usage of the `ServiceProviderFactory` as NServiceBus requires a working container when starting. The built container must then be returned from `ConfigureServices` so that both ASP.NET Core and NServiceBus use the same container.
 
 ```
+// Return IServiceProvider
 public IServiceProvider ConfigureServices(IServiceCollection services)
 {
-    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    // Register some services
     services.AddSingleton<ServiceA>(_ => new ServiceA("a"));
 
+    // Configure the endpoint
     var ec = new EndpointConfiguration("Demo");
     ec.UseTransport<LearningTransport>();
 
@@ -61,19 +63,22 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
         c.UseServiceCollection(services);
         c.ServiceProviderFactory(sc =>
         {
-            sc.AddSingleton<ServiceC>();
-            serviceProvider = new Container(sc);
+            serviceProvider = sc.BuildServiceProvider();
             return serviceProvider;
         });
     });
 
+    // You can still register services as long as the endpoint hasn't been started yet
     ec.RegisterComponents(c => c.RegisterSingleton(new ServiceB("b")));
 
+    // Make IMessageSession available via DI
     IEndpointInstance endpointInstance = null;
     services.AddSingleton<IMessageSession>(_ => endpointInstance);
+    
+    // Start the endpoint
     endpointInstance = NServiceBus.Endpoint.Start(ec).GetAwaiter().GetResult();
 
-    // make sure to return the container here
+    // Make sure to return the container here
     return serviceProvider;
 }
 ```
