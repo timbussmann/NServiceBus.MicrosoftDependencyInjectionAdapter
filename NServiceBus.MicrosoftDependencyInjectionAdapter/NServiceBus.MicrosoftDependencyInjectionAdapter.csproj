@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <LicenseUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter/blob/master/LICENSE</LicenseUrl>
+    <PackageLicenseUrl>https://github.com/timbussmann/NServiceBus.MicrosoftDependencyInjectionAdapter/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
