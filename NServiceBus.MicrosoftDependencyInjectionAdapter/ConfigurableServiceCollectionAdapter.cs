@@ -102,23 +102,5 @@ namespace NServiceBus.MicrosoftDependencyInjectionAdapter
                 default: throw new NotSupportedException();
             }
         }
-
-        //TODO which scenario is this needed for?
-        static IEnumerable<Type> GetAllServices(Type type)
-        {
-            if (type == null)
-            {
-                return new List<Type>();
-            }
-
-            var result = new List<Type>(type.GetInterfaces());
-
-            foreach (var interfaceType in type.GetInterfaces())
-            {
-                result.AddRange(GetAllServices(interfaceType));
-            }
-
-            return result.Distinct();
-        }
     }
 }
