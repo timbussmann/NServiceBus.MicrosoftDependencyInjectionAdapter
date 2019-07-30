@@ -6,7 +6,7 @@ This is a minimal implementation of a NServiceBus DI Container package supportin
 
 ## Providing an existing IServiceCollection:
 
-```
+```csharp
 // to configure your services using the ServiceCollection API:
 var sc = new ServiceCollection();
 sc.AddSingleton(new MyService());
@@ -17,7 +17,7 @@ endpointConfiguration.UseContainer<MSDIAdapter>(c => c.UseServiceCollection(sc))
 
 ## Using LightInject:
 
-```
+```csharp
 var lightinject = new LightInject.ServiceContainer();
 lightinject.RegisterInstance(new MyService());
 
@@ -31,7 +31,7 @@ endpointConfiguration.UseContainer<MSDIAdapter>(c =>
 
 ## Using Lamar
 
-```
+```csharp
 var registry = new ServiceRegistry();
 registry.For<MyService>().Use<MyService>().Singleton();
 
@@ -46,7 +46,7 @@ ec.UseContainer<MSDIAdapter>(c =>
 
 Integrating with ASP.NET Core requires the usage of the `ServiceProviderFactory` as NServiceBus requires a working container when starting. The built container must then be returned from `ConfigureServices` so that both ASP.NET Core and NServiceBus use the same container.
 
-```
+```csharp
 // Return IServiceProvider
 public IServiceProvider ConfigureServices(IServiceCollection services)
 {
