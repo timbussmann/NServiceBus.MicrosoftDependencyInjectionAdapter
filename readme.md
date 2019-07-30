@@ -1,6 +1,6 @@
 This is a minimal implementation of a NServiceBus DI Container package supporting Microsoft.Extensions.DependencyInjection. It allows to use the default implementation but it can also wrap other containers.
 
-## using the Adapter with the default IServiceProvider implementation:
+## Using the Adapter with the default IServiceProvider implementation:
 `endpointConfiguration.UseContainer<MSDIAdapter>();`
 
 
